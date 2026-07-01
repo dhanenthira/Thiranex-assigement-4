@@ -1,0 +1,1253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlipMart - India's Shopping Destination</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#2874f0;--blue-dark:#1a5bbf;--blue-light:#e8f0fe;
+  --yellow:#f9a825;--green:#26a541;--red:#ff6161;
+  --gray-50:#f8f9fa;--gray-100:#f1f3f4;--gray-200:#e8eaed;
+  --gray-400:#9aa0a6;--gray-600:#5f6368;--gray-800:#202124;
+  --white:#fff;--shadow:0 2px 8px rgba(0,0,0,.12);--shadow-lg:0 4px 20px rgba(0,0,0,.15);
+  --radius:4px;--radius-lg:8px;--transition:.2s ease;
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f3f6;color:var(--gray-800);font-size:14px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+/* NAVBAR */
+.navbar{background:var(--blue);position:sticky;top:0;z-index:1000;box-shadow:var(--shadow)}
+.nav-top{display:flex;align-items:center;gap:12px;padding:10px 20px;max-width:1300px;margin:0 auto}
+.logo{color:var(--white);font-size:22px;font-weight:700;display:flex;flex-direction:column;line-height:1.1;min-width:100px}
+.logo span{font-size:10px;color:#ffe500;font-style:italic;font-weight:400}
+.search-box{flex:1;display:flex;background:var(--white);border-radius:var(--radius);overflow:hidden;max-width:600px}
+.search-box input{flex:1;padding:10px 14px;border:none;outline:none;font-size:14px}
+.search-btn{background:var(--blue);color:var(--white);padding:0 18px;font-size:18px;display:flex;align-items:center;transition:var(--transition)}
+.search-btn:hover{background:var(--blue-dark)}
+.nav-actions{display:flex;gap:6px;margin-left:auto}
+.nav-btn{color:var(--white);padding:8px 16px;border-radius:var(--radius);font-size:13px;font-weight:600;transition:var(--transition);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.nav-btn:hover{background:rgba(255,255,255,.15)}
+.nav-btn .badge{background:var(--yellow);color:#333;border-radius:50%;width:18px;height:18px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.nav-cats{background:#2874f0;border-top:1px solid rgba(255,255,255,.2);display:flex;justify-content:center;gap:0}
+.cat-link{color:var(--white);padding:10px 18px;font-size:13px;font-weight:500;transition:var(--transition);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.cat-link:hover,.cat-link.active{background:rgba(255,255,255,.15)}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* HERO CAROUSEL */
+.carousel-wrap{background:var(--white);position:relative;overflow:hidden;max-height:280px}
+.carousel-inner{display:flex;transition:.5s ease;height:280px}
+.slide{min-width:100%;height:280px;display:flex;align-items:center;justify-content:center;position:relative}
+.slide-1{background:linear-gradient(135deg,#1565c0,#1976d2)}
+.slide-2{background:linear-gradient(135deg,#b71c1c,#e53935)}
+.slide-3{background:linear-gradient(135deg,#1b5e20,#388e3c)}
+.slide-4{background:linear-gradient(135deg,#4a148c,#7b1fa2)}
+.slide-content{text-align:center;color:var(--white);padding:20px}
+.slide-content h2{font-size:32px;font-weight:700;margin-bottom:8px}
+.slide-content p{font-size:16px;opacity:.9;margin-bottom:16px}
+.slide-badge{background:var(--yellow);color:#333;padding:8px 24px;border-radius:20px;font-weight:700;font-size:14px;display:inline-block}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:10;transition:var(--transition)}
+.carousel-btn:hover{background:var(--white);box-shadow:var(--shadow)}
+.carousel-prev{left:12px}
+.carousel-next{right:12px}
+.carousel-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:var(--transition)}
+.dot.active{background:var(--white);width:20px;border-radius:4px}
+
+/* MAIN LAYOUT */
+.main-container{max-width:1300px;margin:0 auto;padding:16px}
+
+/* CATEGORIES SECTION */
+.section{background:var(--white);border-radius:var(--radius);margin-bottom:16px;padding:20px;box-shadow:var(--shadow)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-title{font-size:20px;font-weight:700;color:var(--gray-800)}
+.see-all{color:var(--blue);font-weight:600;font-size:13px;cursor:pointer}
+.see-all:hover{text-decoration:underline}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px}
+.cat-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:var(--radius-lg);cursor:pointer;transition:var(--transition);text-align:center}
+.cat-card:hover{background:var(--blue-light)}
+.cat-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;transition:var(--transition)}
+.cat-card:hover .cat-icon{transform:scale(1.08)}
+.cat-name{font-size:12px;font-weight:600;color:var(--gray-800);line-height:1.2}
+
+/* PRODUCTS GRID */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)}
+.product-card{background:var(--white);padding:20px 16px;cursor:pointer;transition:var(--transition);border-right:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);display:flex;flex-direction:column;align-items:center;text-align:center}
+.product-card:hover{box-shadow:var(--shadow-lg);z-index:2;position:relative}
+.product-img-wrap{width:180px;height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative}
+.product-img{width:100%;height:100%;object-fit:contain;font-size:0}
+.product-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;border-radius:var(--radius)}
+.wishlist-btn{position:absolute;top:0;right:0;background:none;border:none;cursor:pointer;font-size:18px;color:var(--gray-400);transition:var(--transition)}
+.wishlist-btn:hover,.wishlist-btn.active{color:var(--red)}
+.product-name{font-size:14px;font-weight:500;color:var(--gray-800);margin-bottom:4px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-rating{display:flex;align-items:center;gap:4px;margin-bottom:6px;justify-content:center}
+.rating-badge{background:var(--green);color:var(--white);padding:2px 8px;border-radius:3px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:3px}
+.rating-count{color:var(--gray-400);font-size:12px}
+.product-price{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:6px}
+.price-now{font-size:16px;font-weight:700;color:var(--gray-800)}
+.price-was{font-size:13px;color:var(--gray-400);text-decoration:line-through}
+.price-off{font-size:13px;color:var(--green);font-weight:600}
+.product-tag{font-size:11px;color:var(--red);font-weight:600}
+.add-cart-btn{width:100%;padding:8px;background:var(--blue);color:var(--white);border-radius:var(--radius);font-size:13px;font-weight:600;transition:var(--transition);margin-top:auto}
+.add-cart-btn:hover{background:var(--blue-dark)}
+.add-cart-btn.added{background:var(--green)}
+
+/* DEALS SECTION */
+.deals-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.deal-card{min-width:150px;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:12px;cursor:pointer;transition:var(--transition);text-align:center}
+.deal-card:hover{border-color:var(--blue);box-shadow:var(--shadow)}
+.deal-img{font-size:48px;margin-bottom:8px}
+.deal-name{font-size:12px;font-weight:600;margin-bottom:4px}
+.deal-price{font-size:14px;font-weight:700;color:var(--blue)}
+.deal-off{font-size:11px;color:var(--green);font-weight:600}
+.timer{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600)}
+.timer-box{background:var(--gray-800);color:var(--white);padding:4px 8px;border-radius:var(--radius);font-weight:700;font-size:16px;min-width:36px;text-align:center}
+.timer-sep{font-weight:700;color:var(--gray-800)}
+
+/* PRODUCT LISTING PAGE */
+.listing-layout{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.filters-panel{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.filter-title{font-size:16px;font-weight:700;border-bottom:1px solid var(--gray-200);padding-bottom:12px;margin-bottom:12px}
+.filter-group{margin-bottom:16px;border-bottom:1px solid var(--gray-200);padding-bottom:12px}
+.filter-group-title{font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.filter-option{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;font-size:13px;color:var(--gray-600)}
+.filter-option input{accent-color:var(--blue)}
+.filter-option:hover{color:var(--blue)}
+.price-range{display:flex;gap:8px;align-items:center;margin-top:8px}
+.price-range input{width:80px;padding:6px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:12px}
+.listing-content{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
+.listing-header{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid var(--gray-200)}
+.listing-count{font-size:14px;color:var(--gray-600)}
+.sort-select{padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:13px;outline:none}
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;border-left:1px solid var(--gray-200)}
+.listing-item{padding:20px;border-right:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);cursor:pointer;transition:var(--transition);display:flex;flex-direction:column;align-items:center;text-align:center}
+.listing-item:hover{background:var(--gray-50)}
+.pagination{display:flex;align-items:center;justify-content:center;gap:4px;padding:20px}
+.page-btn{padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:13px;cursor:pointer;transition:var(--transition)}
+.page-btn:hover,.page-btn.active{background:var(--blue);color:var(--white);border-color:var(--blue)}
+
+/* PRODUCT DETAIL */
+.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:16px}
+.gallery-wrap{display:flex;gap:12px}
+.thumb-col{display:flex;flex-direction:column;gap:8px}
+.thumb{width:60px;height:60px;border:2px solid var(--gray-200);border-radius:var(--radius);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:var(--transition)}
+.thumb.active,.thumb:hover{border-color:var(--blue)}
+.main-img{flex:1;display:flex;align-items:center;justify-content:center;font-size:120px;border:1px solid var(--gray-200);border-radius:var(--radius);min-height:350px}
+.detail-info{display:flex;flex-direction:column;gap:12px}
+.detail-name{font-size:20px;font-weight:500;line-height:1.3}
+.detail-rating{display:flex;align-items:center;gap:8px}
+.detail-price-block{border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);padding:12px 0}
+.detail-price-now{font-size:28px;font-weight:700}
+.detail-price-was{font-size:16px;color:var(--gray-400);text-decoration:line-through}
+.detail-price-off{font-size:16px;color:var(--green);font-weight:600}
+.offers-section{background:var(--gray-50);border-radius:var(--radius);padding:12px}
+.offer-item{display:flex;gap:8px;margin-bottom:8px;font-size:13px}
+.offer-tag{background:var(--green);color:var(--white);padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600;white-space:nowrap;height:fit-content}
+.seller-box{border:1px solid var(--gray-200);border-radius:var(--radius);padding:12px;font-size:13px}
+.seller-name{color:var(--blue);font-weight:600;cursor:pointer}
+.qty-picker{display:flex;align-items:center;gap:12px}
+.qty-btn{width:32px;height:32px;border:1px solid var(--blue);border-radius:50%;color:var(--blue);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition)}
+.qty-btn:hover{background:var(--blue);color:var(--white)}
+.qty-val{font-size:16px;font-weight:600;min-width:24px;text-align:center}
+.action-btns{display:flex;gap:12px}
+.btn-cart{flex:1;padding:14px;background:var(--yellow);color:#333;font-size:15px;font-weight:700;border-radius:var(--radius);transition:var(--transition)}
+.btn-cart:hover{background:#f0a500}
+.btn-buy{flex:1;padding:14px;background:var(--blue);color:var(--white);font-size:15px;font-weight:700;border-radius:var(--radius);transition:var(--transition)}
+.btn-buy:hover{background:var(--blue-dark)}
+
+/* SPECS TABLE */
+.specs-table{width:100%;border-collapse:collapse}
+.specs-table tr:nth-child(even) td:first-child{background:#fafafa}
+.specs-table tr:nth-child(even) td:last-child{background:var(--white)}
+.specs-table tr:nth-child(odd) td{background:#f7f8fa}
+.specs-table td{padding:10px 16px;font-size:13px;border-bottom:1px solid var(--gray-200);vertical-align:top}
+.specs-table td:first-child{color:var(--gray-600);min-width:160px;font-weight:500}
+
+/* REVIEWS */
+.review-summary{display:flex;gap:24px;align-items:center;padding:16px;border-bottom:1px solid var(--gray-200)}
+.big-rating{font-size:56px;font-weight:700;color:var(--gray-800);line-height:1}
+.rating-bars{flex:1}
+.rating-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:12px}
+.rating-bar-bg{flex:1;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden}
+.rating-bar-fill{height:100%;border-radius:4px;background:var(--green)}
+.review-card{padding:16px;border-bottom:1px solid var(--gray-200)}
+.reviewer-name{font-size:13px;font-weight:700}
+.review-title{font-size:14px;font-weight:600;margin:6px 0 4px}
+.review-text{font-size:13px;color:var(--gray-600);line-height:1.6}
+.review-date{font-size:11px;color:var(--gray-400);margin-top:4px}
+
+/* CART */
+.cart-layout{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+.cart-items{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow)}
+.cart-header{padding:16px;border-bottom:1px solid var(--gray-200);font-size:16px;font-weight:700}
+.cart-item{display:flex;gap:16px;padding:16px;border-bottom:1px solid var(--gray-200)}
+.cart-item-img{width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:14px;font-weight:500;margin-bottom:4px}
+.cart-item-seller{font-size:12px;color:var(--gray-400);margin-bottom:8px}
+.cart-item-price{font-size:16px;font-weight:700}
+.cart-item-actions{display:flex;gap:12px;margin-top:8px}
+.cart-action-btn{font-size:13px;color:var(--gray-600);cursor:pointer;padding:4px 0;border-bottom:1px solid transparent}
+.cart-action-btn:hover{color:var(--blue);border-color:var(--blue)}
+.price-summary{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.price-row{display:flex;justify-content:space-between;padding:10px 0;font-size:14px;border-bottom:1px solid var(--gray-200)}
+.price-row:last-of-type{border-bottom:2px solid var(--gray-200);font-weight:700;font-size:15px}
+.price-row.total{border-bottom:none;font-size:16px;font-weight:700;color:var(--gray-800)}
+.price-row.discount{color:var(--green)}
+.checkout-btn{width:100%;padding:14px;background:var(--blue);color:var(--white);font-size:15px;font-weight:700;border-radius:var(--radius);margin-top:12px;cursor:pointer;transition:var(--transition)}
+.checkout-btn:hover{background:var(--blue-dark)}
+.savings-msg{background:#e8f5e9;color:#2e7d32;font-size:13px;font-weight:500;padding:10px;margin-top:8px;border-radius:var(--radius);text-align:center}
+
+/* CHECKOUT */
+.checkout-steps{display:flex;align-items:center;gap:0;margin-bottom:20px;background:var(--white);padding:16px 24px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.step-item{display:flex;align-items:center;gap:8px;flex:1}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.step-num.active{background:var(--blue);color:var(--white)}
+.step-num.done{background:var(--green);color:var(--white)}
+.step-label{font-size:13px;font-weight:500}
+.step-line{flex:1;height:2px;background:var(--gray-200);margin:0 8px}
+.step-line.done{background:var(--green)}
+.checkout-layout{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+.checkout-section{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:12px}
+.checkout-section-title{font-size:15px;font-weight:700;color:var(--blue);border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:12px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select{padding:10px 12px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:14px;outline:none;transition:var(--transition)}
+.form-group input:focus,.form-group select:focus{border-color:var(--blue)}
+.payment-options{display:flex;flex-direction:column;gap:10px}
+.payment-option{display:flex;align-items:center;gap:12px;padding:14px;border:2px solid var(--gray-200);border-radius:var(--radius);cursor:pointer;transition:var(--transition)}
+.payment-option.selected{border-color:var(--blue);background:var(--blue-light)}
+.payment-icon{font-size:24px}
+.payment-label{font-size:14px;font-weight:600}
+.payment-sub{font-size:12px;color:var(--gray-400)}
+.place-order-btn{width:100%;padding:14px;background:var(--blue);color:var(--white);font-size:16px;font-weight:700;border-radius:var(--radius);cursor:pointer;transition:var(--transition)}
+.place-order-btn:hover{background:var(--blue-dark)}
+
+/* ORDER TRACKING */
+.order-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:12px}
+.order-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--gray-200)}
+.order-id{font-size:13px;color:var(--gray-600)}
+.order-status{font-size:13px;font-weight:700;color:var(--green)}
+.tracking-steps{display:flex;flex-direction:column;gap:0;position:relative;padding-left:24px}
+.tracking-step{display:flex;gap:12px;position:relative;padding-bottom:20px}
+.tracking-step:last-child{padding-bottom:0}
+.step-dot{width:16px;height:16px;border-radius:50%;border:3px solid var(--gray-200);background:var(--white);position:absolute;left:-29px;top:2px;transition:var(--transition)}
+.step-dot.done{background:var(--blue);border-color:var(--blue)}
+.step-dot.current{background:var(--white);border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-light)}
+.tracking-step:not(:last-child)::before{content:'';position:absolute;left:-22px;top:18px;width:2px;height:calc(100% - 18px);background:var(--gray-200)}
+.tracking-step.done::before{background:var(--blue)}
+.step-info-title{font-size:13px;font-weight:600}
+.step-info-sub{font-size:12px;color:var(--gray-400)}
+
+/* ACCOUNT */
+.account-layout{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.account-sidebar{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.account-user{background:var(--blue);padding:20px;color:var(--white)}
+.account-avatar{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:8px}
+.account-name{font-size:15px;font-weight:600}
+.account-email{font-size:12px;opacity:.8}
+.account-menu{padding:8px 0}
+.account-menu-item{padding:12px 20px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--gray-600);transition:var(--transition)}
+.account-menu-item:hover,.account-menu-item.active{background:var(--blue-light);color:var(--blue);font-weight:600}
+.account-content{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--gray-50);border-radius:var(--radius-lg);padding:16px;text-align:center}
+.stat-card-num{font-size:28px;font-weight:700;color:var(--blue)}
+.stat-card-label{font-size:12px;color:var(--gray-600);margin-top:4px}
+.order-list-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-200);align-items:center}
+.order-list-img{font-size:32px;width:56px;text-align:center}
+.order-list-info{flex:1}
+.order-list-name{font-size:13px;font-weight:500;margin-bottom:2px}
+.order-list-meta{font-size:12px;color:var(--gray-400)}
+.order-list-status{font-size:12px;font-weight:600;color:var(--green)}
+
+/* WISHLIST */
+.wishlist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.wishlist-item{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:12px;text-align:center;position:relative;cursor:pointer;transition:var(--transition)}
+.wishlist-item:hover{box-shadow:var(--shadow);border-color:var(--blue)}
+.wishlist-remove{position:absolute;top:8px;right:8px;color:var(--red);font-size:16px;cursor:pointer}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:#323232;color:var(--white);padding:12px 20px;border-radius:var(--radius-lg);font-size:14px;display:flex;align-items:center;gap:10px;z-index:9999;transform:translateY(80px);opacity:0;transition:.3s ease;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{color:var(--yellow);font-size:18px}
+
+/* SUCCESS */
+.success-wrap{text-align:center;padding:48px 24px}
+.success-icon{font-size:72px;color:var(--green);margin-bottom:16px}
+.success-title{font-size:24px;font-weight:700;margin-bottom:8px}
+.success-sub{font-size:15px;color:var(--gray-600);margin-bottom:24px}
+
+/* FOOTER */
+.footer{background:#172337;color:#fff;margin-top:24px}
+.footer-top{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:40px 20px;max-width:1300px;margin:0 auto}
+.footer-col h4{font-size:13px;font-weight:700;color:#878787;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.footer-col a{display:block;color:#878787;font-size:13px;margin-bottom:8px;transition:var(--transition);cursor:pointer}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{background:#0d2137;text-align:center;padding:16px;font-size:12px;color:#878787}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-top{flex-wrap:wrap;gap:8px;padding:8px 12px}
+  .search-box{order:3;flex:1 1 100%}
+  .listing-layout,.cart-layout,.checkout-layout,.account-layout{grid-template-columns:1fr}
+  .detail-layout{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+  .products-grid,.listing-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--gray-100)}
+::-webkit-scrollbar-thumb{background:var(--gray-400);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-top">
+    <div class="logo" onclick="showPage('home')" style="cursor:pointer">
+      FlipMart
+      <span>Explore <i>Plus</i></span>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search for products, brands and more" onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="search-btn" onclick="doSearch()"><i class="ti ti-search"></i></button>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="showPage('account')"><i class="ti ti-user"></i> Login</button>
+      <button class="nav-btn" onclick="showPage('cart')">
+        <i class="ti ti-shopping-cart"></i> Cart
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('wishlist')"><i class="ti ti-heart"></i></button>
+    </div>
+  </div>
+  <div class="nav-cats">
+    <span class="cat-link active" onclick="showPage('home')"><i class="ti ti-home"></i> Home</span>
+    <span class="cat-link" onclick="showListing('Electronics')"><i class="ti ti-device-mobile"></i> Electronics</span>
+    <span class="cat-link" onclick="showListing('Fashion')"><i class="ti ti-shirt"></i> Fashion</span>
+    <span class="cat-link" onclick="showListing('Furniture')"><i class="ti ti-sofa"></i> Furniture</span>
+    <span class="cat-link" onclick="showListing('Appliances')"><i class="ti ti-washing-machine"></i> Appliances</span>
+    <span class="cat-link" onclick="showListing('Grocery')"><i class="ti ti-shopping-bag"></i> Grocery</span>
+    <span class="cat-link" onclick="showPage('orders')"><i class="ti ti-package"></i> Orders</span>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+  <!-- Carousel -->
+  <div class="carousel-wrap">
+    <div class="carousel-inner" id="carousel">
+      <div class="slide slide-1"><div class="slide-content"><h2>Big Billion Days Sale</h2><p>Up to 80% off on Electronics, Fashion & More</p><span class="slide-badge">Shop Now →</span></div></div>
+      <div class="slide slide-2"><div class="slide-content"><h2>Smartphone Fiesta</h2><p>Latest iPhones & Android Flagships starting ₹9,999</p><span class="slide-badge">Explore Deals →</span></div></div>
+      <div class="slide slide-3"><div class="slide-content"><h2>Fresh Deals Daily</h2><p>Grocery, Kitchen & More — Delivered in 10 mins</p><span class="slide-badge">Order Now →</span></div></div>
+      <div class="slide slide-4"><div class="slide-content"><h2>Fashion Weekender</h2><p>Trending styles for every occasion — Min 60% Off</p><span class="slide-badge">Browse Styles →</span></div></div>
+    </div>
+    <button class="carousel-btn carousel-prev" onclick="prevSlide()"><i class="ti ti-chevron-left"></i></button>
+    <button class="carousel-btn carousel-next" onclick="nextSlide()"><i class="ti ti-chevron-right"></i></button>
+    <div class="carousel-dots" id="dots"></div>
+  </div>
+
+  <div class="main-container">
+    <!-- Categories -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Shop by Category</span>
+        <span class="see-all">See All <i class="ti ti-arrow-right"></i></span>
+      </div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+
+    <!-- Best Deals Timer -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">⚡ Deal of the Day</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:13px;color:var(--gray-600)">Ends in</span>
+          <div class="timer">
+            <div class="timer-box" id="th">08</div><span class="timer-sep">:</span>
+            <div class="timer-box" id="tm">45</div><span class="timer-sep">:</span>
+            <div class="timer-box" id="ts">30</div>
+          </div>
+        </div>
+      </div>
+      <div class="deals-scroll" id="dealsGrid"></div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="section" style="padding:20px 0">
+      <div class="section-header" style="padding:0 20px">
+        <span class="section-title">Featured Products</span>
+        <span class="see-all" onclick="showListing('All')">See All <i class="ti ti-arrow-right"></i></span>
+      </div>
+      <div class="products-grid" id="featuredGrid"></div>
+    </div>
+
+    <!-- Best Sellers -->
+    <div class="section" style="padding:20px 0">
+      <div class="section-header" style="padding:0 20px">
+        <span class="section-title">🔥 Best Sellers</span>
+        <span class="see-all">View All <i class="ti ti-arrow-right"></i></span>
+      </div>
+      <div class="products-grid" id="bestSellersGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTING PAGE -->
+<div id="listing" class="page">
+  <div class="main-container">
+    <div style="font-size:13px;color:var(--gray-400);margin-bottom:12px">
+      <span style="cursor:pointer;color:var(--blue)" onclick="showPage('home')">Home</span> › <span id="listingCatName">Electronics</span>
+    </div>
+    <div class="listing-layout">
+      <div class="filters-panel">
+        <div class="filter-title"><i class="ti ti-adjustments-horizontal"></i> Filters</div>
+        <div class="filter-group">
+          <div class="filter-group-title">Price Range</div>
+          <div class="price-range">
+            <input type="number" placeholder="Min" id="priceMin" value="0">
+            <span>—</span>
+            <input type="number" placeholder="Max" id="priceMax" value="100000">
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Brand</div>
+          <label class="filter-option"><input type="checkbox" checked> Samsung</label>
+          <label class="filter-option"><input type="checkbox" checked> Apple</label>
+          <label class="filter-option"><input type="checkbox"> OnePlus</label>
+          <label class="filter-option"><input type="checkbox"> Xiaomi</label>
+          <label class="filter-option"><input type="checkbox"> Realme</label>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Rating</div>
+          <label class="filter-option"><input type="radio" name="rat"> 4★ & above</label>
+          <label class="filter-option"><input type="radio" name="rat"> 3★ & above</label>
+          <label class="filter-option"><input type="radio" name="rat" checked> All</label>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-title">Discount</div>
+          <label class="filter-option"><input type="checkbox"> 50% or more</label>
+          <label class="filter-option"><input type="checkbox"> 30% or more</label>
+          <label class="filter-option"><input type="checkbox" checked> 10% or more</label>
+        </div>
+        <div class="filter-group" style="border:none">
+          <div class="filter-group-title">Availability</div>
+          <label class="filter-option"><input type="checkbox" checked> In Stock</label>
+          <label class="filter-option"><input type="checkbox"> Includes Out of Stock</label>
+        </div>
+      </div>
+      <div class="listing-content">
+        <div class="listing-header">
+          <span class="listing-count" id="listingCountText">Showing 1–20 of 1,245 results</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:13px;color:var(--gray-600)">Sort by:</span>
+            <select class="sort-select">
+              <option>Relevance</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest First</option>
+              <option>Popularity</option>
+            </select>
+          </div>
+        </div>
+        <div class="listing-grid" id="listingGrid"></div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div id="detail" class="page">
+  <div class="main-container">
+    <div style="font-size:13px;color:var(--gray-400);margin-bottom:12px">
+      <span style="cursor:pointer;color:var(--blue)" onclick="showPage('home')">Home</span> ›
+      <span style="cursor:pointer;color:var(--blue)" onclick="showPage('listing')">Electronics</span> ›
+      <span id="breadcrumbProd">Product</span>
+    </div>
+    <div class="detail-layout">
+      <div class="gallery-wrap">
+        <div class="thumb-col" id="thumbCol"></div>
+        <div class="main-img" id="mainImg">📱</div>
+      </div>
+      <div class="detail-info">
+        <div class="detail-name" id="detailName">Samsung Galaxy S24 Ultra</div>
+        <div class="detail-rating">
+          <div class="rating-badge"><span id="detailRating">4.5</span> <i class="ti ti-star-filled" style="font-size:11px"></i></div>
+          <span class="rating-count" id="detailRatingCount">12,345 ratings</span>
+          <span style="color:var(--gray-200)">|</span>
+          <span style="color:var(--green);font-size:13px;font-weight:600">ISI Certified</span>
+        </div>
+        <div class="detail-price-block">
+          <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span class="detail-price-now" id="detailPriceNow">₹1,29,999</span>
+            <span class="detail-price-was" id="detailPriceWas">₹1,59,999</span>
+            <span class="detail-price-off" id="detailPriceOff">19% off</span>
+          </div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:4px">Inclusive of all taxes</div>
+          <div style="display:flex;gap:16px;margin-top:10px;font-size:13px">
+            <span><i class="ti ti-truck" style="color:var(--green)"></i> Free Delivery</span>
+            <span><i class="ti ti-shield-check" style="color:var(--blue)"></i> 1 Year Warranty</span>
+            <span><i class="ti ti-refresh" style="color:var(--yellow)"></i> 7-day Return</span>
+          </div>
+        </div>
+        <div class="offers-section">
+          <div style="font-size:13px;font-weight:700;margin-bottom:10px">Available Offers</div>
+          <div class="offer-item"><span class="offer-tag">Bank Offer</span> <span>10% off on SBI Credit Cards, up to ₹1500</span></div>
+          <div class="offer-item"><span class="offer-tag">No Cost EMI</span> <span>Starting ₹5,999/month on select cards</span></div>
+          <div class="offer-item"><span class="offer-tag">Exchange</span> <span>Up to ₹45,000 off on exchange</span></div>
+        </div>
+        <div class="seller-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;color:var(--gray-600)">Sold by</span>
+            <span class="seller-name">RetailNet India</span>
+          </div>
+          <div style="font-size:12px;color:var(--gray-400)">
+            <i class="ti ti-star" style="color:var(--yellow)"></i> 4.8 · 98.2% positive feedback
+          </div>
+        </div>
+        <div class="qty-picker">
+          <span style="font-size:14px;font-weight:600">Qty:</span>
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-val" id="qtyVal">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <div class="action-btns">
+          <button class="btn-cart" onclick="addCurrentToCart()"><i class="ti ti-shopping-cart"></i> Add to Cart</button>
+          <button class="btn-buy" onclick="buyNow()"><i class="ti ti-bolt"></i> Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specs -->
+    <div class="section">
+      <div class="section-title" style="margin-bottom:16px">Specifications</div>
+      <table class="specs-table" id="specsTable"></table>
+    </div>
+
+    <!-- Reviews -->
+    <div class="section">
+      <div class="section-title" style="margin-bottom:16px">Ratings & Reviews</div>
+      <div class="review-summary">
+        <div>
+          <div class="big-rating" id="bigRating">4.5</div>
+          <div style="font-size:13px;color:var(--gray-400);margin-top:4px">12,345 ratings</div>
+        </div>
+        <div class="rating-bars" id="ratingBars"></div>
+      </div>
+      <div id="reviewsList"></div>
+    </div>
+
+    <!-- Related -->
+    <div class="section" style="padding:20px 0">
+      <div class="section-header" style="padding:0 20px;margin-bottom:16px">
+        <span class="section-title">Related Products</span>
+      </div>
+      <div class="products-grid" id="relatedGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CART PAGE -->
+<div id="cart" class="page">
+  <div class="main-container">
+    <div class="cart-layout">
+      <div>
+        <div class="cart-items" id="cartItemsWrap"></div>
+      </div>
+      <div>
+        <div class="price-summary" id="priceSummary"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div id="checkout" class="page">
+  <div class="main-container">
+    <div class="checkout-steps">
+      <div class="step-item"><div class="step-num done"><i class="ti ti-check" style="font-size:12px"></i></div><span class="step-label">Cart</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-num active">2</div><span class="step-label">Address</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-num">3</div><span class="step-label">Payment</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-num">4</div><span class="step-label">Review</span></div>
+    </div>
+    <div class="checkout-layout">
+      <div>
+        <div class="checkout-section">
+          <div class="checkout-section-title"><i class="ti ti-map-pin"></i> Delivery Address</div>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Rahul"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Mobile</label><input type="text" placeholder="+91 98765 43210"></div>
+            <div class="form-group"><label>Pincode</label><input type="text" placeholder="400001"></div>
+          </div>
+          <div class="form-row" style="grid-template-columns:1fr">
+            <div class="form-group"><label>Address</label><input type="text" placeholder="Flat, House no., Building, Street, Area"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>City</label><input type="text" placeholder="Mumbai"></div>
+            <div class="form-group"><label>State</label>
+              <select><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option></select>
+            </div>
+          </div>
+        </div>
+        <div class="checkout-section">
+          <div class="checkout-section-title"><i class="ti ti-credit-card"></i> Payment Method</div>
+          <div class="payment-options">
+            <div class="payment-option selected" onclick="selectPayment(this)">
+              <span class="payment-icon">🏦</span>
+              <div><div class="payment-label">Net Banking</div><div class="payment-sub">All major banks supported</div></div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(this)">
+              <span class="payment-icon">💳</span>
+              <div><div class="payment-label">Credit / Debit Card</div><div class="payment-sub">Visa, Mastercard, Rupay</div></div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(this)">
+              <span class="payment-icon">📱</span>
+              <div><div class="payment-label">UPI</div><div class="payment-sub">PhonePe, GPay, Paytm & more</div></div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(this)">
+              <span class="payment-icon">💵</span>
+              <div><div class="payment-label">Cash on Delivery</div><div class="payment-sub">Pay when delivered</div></div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(this)">
+              <span class="payment-icon">🔖</span>
+              <div><div class="payment-label">FlipMart Pay Later</div><div class="payment-sub">Buy now, pay next month</div></div>
+            </div>
+          </div>
+        </div>
+        <button class="place-order-btn" onclick="placeOrder()"><i class="ti ti-check"></i> Place Order Securely</button>
+      </div>
+      <div>
+        <div class="price-summary" id="checkoutSummary"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS -->
+<div id="success" class="page">
+  <div class="main-container">
+    <div class="success-wrap">
+      <div class="success-icon"><i class="ti ti-circle-check-filled" style="font-size:80px;color:var(--green)"></i></div>
+      <div class="success-title">Order Placed Successfully! 🎉</div>
+      <div class="success-sub">Your order #FM-2024-8847 has been placed. Expected delivery in 2-4 business days.</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-buy" style="padding:12px 24px;border-radius:var(--radius);cursor:pointer" onclick="showPage('orders')">Track Your Order</button>
+        <button class="btn-cart" style="padding:12px 24px;border-radius:var(--radius);cursor:pointer" onclick="showPage('home')">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDERS PAGE -->
+<div id="orders" class="page">
+  <div class="main-container">
+    <div style="font-size:13px;color:var(--gray-400);margin-bottom:12px">
+      <span style="cursor:pointer;color:var(--blue)" onclick="showPage('home')">Home</span> › My Orders
+    </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom:20px">Order Tracking</div>
+      <div id="ordersWrap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT PAGE -->
+<div id="account" class="page">
+  <div class="main-container">
+    <div class="account-layout">
+      <div class="account-sidebar">
+        <div class="account-user">
+          <div class="account-avatar">RS</div>
+          <div class="account-name">Rahul Sharma</div>
+          <div class="account-email">rahul.sharma@email.com</div>
+        </div>
+        <div class="account-menu">
+          <div class="account-menu-item active" onclick="setAccountTab('overview',this)"><i class="ti ti-dashboard"></i> Overview</div>
+          <div class="account-menu-item" onclick="setAccountTab('orders',this)"><i class="ti ti-package"></i> My Orders</div>
+          <div class="account-menu-item" onclick="showPage('wishlist')"><i class="ti ti-heart"></i> Wishlist</div>
+          <div class="account-menu-item" onclick="setAccountTab('addresses',this)"><i class="ti ti-map-pin"></i> Addresses</div>
+          <div class="account-menu-item" onclick="setAccountTab('profile',this)"><i class="ti ti-user"></i> Profile</div>
+          <div class="account-menu-item" onclick="setAccountTab('wallet',this)"><i class="ti ti-wallet"></i> FlipMart Wallet</div>
+        </div>
+      </div>
+      <div class="account-content" id="accountContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WISHLIST PAGE -->
+<div id="wishlist" class="page">
+  <div class="main-container">
+    <div style="font-size:13px;color:var(--gray-400);margin-bottom:12px">
+      <span style="cursor:pointer;color:var(--blue)" onclick="showPage('home')">Home</span> › Wishlist
+    </div>
+    <div class="section">
+      <div class="section-title" style="margin-bottom:16px"><i class="ti ti-heart" style="color:var(--red)"></i> My Wishlist (<span id="wishCount">0</span> items)</div>
+      <div class="wishlist-grid" id="wishlistGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="ti ti-circle-check"></i>
+  <span id="toastMsg">Added to cart!</span>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-col">
+      <h4>About</h4>
+      <a>About FlipMart</a><a>Careers</a><a>Press</a><a>Corporate Governance</a><a>Investors</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a>Payments</a><a>Shipping</a><a>Cancellation & Returns</a><a>FAQ</a><a>Report Infringement</a>
+    </div>
+    <div class="footer-col">
+      <h4>Policy</h4>
+      <a>Return Policy</a><a>Terms of Use</a><a>Security</a><a>Privacy</a><a>Sitemap</a>
+    </div>
+    <div class="footer-col">
+      <h4>Social</h4>
+      <a><i class="ti ti-brand-facebook"></i> Facebook</a>
+      <a><i class="ti ti-brand-twitter"></i> Twitter</a>
+      <a><i class="ti ti-brand-youtube"></i> YouTube</a>
+      <a><i class="ti ti-brand-instagram"></i> Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2024 FlipMart.com — A Trusted Marketplace · Registered in India</div>
+</footer>
+
+<script>
+// ===================== DATA =====================
+const CATEGORIES=[
+  {name:'Mobiles',icon:'📱',bg:'#e3f2fd'},{name:'Laptops',icon:'💻',bg:'#f3e5f5'},
+  {name:'TVs',icon:'📺',bg:'#e8f5e9'},{name:'Cameras',icon:'📷',bg:'#fff3e0'},
+  {name:'Fashion',icon:'👗',bg:'#fce4ec'},{name:'Furniture',icon:'🛋️',bg:'#e0f7fa'},
+  {name:'Appliances',icon:'🧊',bg:'#f1f8e9'},{name:'Books',icon:'📚',bg:'#faf3e0'},
+  {name:'Sports',icon:'⚽',bg:'#e8eaf6'},{name:'Grocery',icon:'🛒',bg:'#e0f2f1'},
+  {name:'Toys',icon:'🎮',bg:'#fff8e1'},{name:'Jewellery',icon:'💍',bg:'#fce4ec'}
+];
+
+const PRODUCTS=[
+  {id:1,name:'Samsung Galaxy S24 Ultra 5G',cat:'Electronics',emoji:'📱',price:129999,was:159999,rating:4.5,reviews:12345,off:'19% off',tag:'Bestseller',specs:[['Brand','Samsung'],['Model','Galaxy S24 Ultra'],['Storage','256GB'],['RAM','12GB'],['Display','6.8" AMOLED'],['Battery','5000 mAh'],['Camera','200MP + 12MP + 50MP + 10MP'],['OS','Android 14'],['Processor','Snapdragon 8 Gen 3'],['Color','Titanium Black']]},
+  {id:2,name:'Apple iPhone 15 Pro Max 256GB',cat:'Electronics',emoji:'📱',price:159999,was:179999,rating:4.7,reviews:8934,off:'11% off',tag:'Apple'},
+  {id:3,name:'Sony 65" BRAVIA 4K OLED TV',cat:'Electronics',emoji:'📺',price:189999,was:249999,rating:4.6,reviews:5621,off:'24% off',tag:'Deal'},
+  {id:4,name:'MacBook Air M3 16GB 512GB',cat:'Electronics',emoji:'💻',price:134900,was:149900,rating:4.8,reviews:3245,off:'10% off',tag:''},
+  {id:5,name:'Boat Rockerz 550 Headphones',cat:'Electronics',emoji:'🎧',price:1299,was:3990,rating:4.1,reviews:45678,off:'67% off',tag:'Superb value'},
+  {id:6,name:'Nike Air Max 270 Sneakers',cat:'Fashion',emoji:'👟',price:8995,was:12995,rating:4.3,reviews:9012,off:'31% off',tag:'Trending'},
+  {id:7,name:'Levi\'s 511 Slim Fit Jeans',cat:'Fashion',emoji:'👖',price:2999,was:4799,rating:4.2,reviews:23456,off:'37% off',tag:''},
+  {id:8,name:'Prestige Induction Cooktop',cat:'Appliances',emoji:'🍳',price:2499,was:3999,rating:4.4,reviews:7823,off:'37% off',tag:''},
+  {id:9,name:'Canon EOS R10 Mirrorless Camera',cat:'Electronics',emoji:'📷',price:79990,was:95990,rating:4.6,reviews:2134,off:'17% off',tag:'Pro Choice'},
+  {id:10,name:'Dyson V15 Detect Vacuum',cat:'Appliances',emoji:'🌀',price:45900,was:55900,rating:4.5,reviews:1234,off:'18% off',tag:''},
+  {id:11,name:'IKEA MALM Queen Bed Frame',cat:'Furniture',emoji:'🛏️',price:18999,was:24999,rating:4.3,reviews:3456,off:'24% off',tag:''},
+  {id:12,name:'Nestlé Munch Chocolate 40pc',cat:'Grocery',emoji:'🍫',price:399,was:499,rating:4.6,reviews:89012,off:'20% off',tag:'Pack of 40'},
+  {id:13,name:'OnePlus 12 5G 256GB Silky Black',cat:'Electronics',emoji:'📱',price:64999,was:79999,rating:4.4,reviews:5678,off:'19% off',tag:''},
+  {id:14,name:'Adidas Ultraboost 22 Running',cat:'Fashion',emoji:'👟',price:12995,was:17999,rating:4.5,reviews:4321,off:'28% off',tag:''},
+  {id:15,name:'LG 8 kg Inverter Washing Machine',cat:'Appliances',emoji:'🫧',price:34999,was:44999,rating:4.6,reviews:6789,off:'22% off',tag:'Energy Star'},
+  {id:16,name:'Kindle Paperwhite 16GB',cat:'Electronics',emoji:'📖',price:11999,was:15999,rating:4.7,reviews:34567,off:'25% off',tag:'Must have'}
+];
+
+const DEALS=[
+  {name:'boAt Earbuds',price:'₹999',was:'₹3,499',off:'71% off',emoji:'🎧'},
+  {name:'Mi Smart TV',price:'₹8,999',was:'₹14,999',off:'40% off',emoji:'📺'},
+  {name:'HP Laptop',price:'₹35,990',was:'₹52,990',off:'32% off',emoji:'💻'},
+  {name:'Sony Speaker',price:'₹2,499',was:'₹4,990',off:'50% off',emoji:'🔊'},
+  {name:'Realme Watch',price:'₹1,999',was:'₹4,999',off:'60% off',emoji:'⌚'},
+  {name:'Nikon Camera',price:'₹34,990',was:'₹49,990',off:'30% off',emoji:'📷'},
+  {name:'JBL Headset',price:'₹3,999',was:'₹7,999',off:'50% off',emoji:'🎧'},
+  {name:'iPad 10th Gen',price:'₹39,900',was:'₹49,900',off:'20% off',emoji:'📱'}
+];
+
+const REVIEWS=[
+  {user:'Amit Kumar',rating:5,title:'Absolutely stunning phone!',text:'The camera quality is next level. Zooming capabilities are incredible and battery life is great.',date:'12 Jan 2024',verified:true},
+  {user:'Priya Nair',rating:4,title:'Great but pricey',text:'Excellent build quality and performance. The S Pen is useful for notes. Just feels expensive for the features.',date:'5 Feb 2024',verified:true},
+  {user:'Rahul Verma',rating:5,title:'Best Android ever made',text:'Coming from iPhone 14, I was blown away. The AI features and camera system are unmatched.',date:'20 Feb 2024',verified:false},
+  {user:'Sneha Patel',rating:3,title:'Overheats sometimes',text:'Good overall but heats up during gaming sessions. Customer support was helpful though.',date:'1 Mar 2024',verified:true}
+];
+
+// ===================== STATE =====================
+let cart=[],wishlist=[],currentProduct=null,cartQty=1,slideIdx=0,timerSecs=30785;
+let currentAccountTab='overview';
+
+// ===================== INIT =====================
+function init(){
+  renderCategories();
+  renderDeals();
+  renderProductGrid('featuredGrid',PRODUCTS.slice(0,8));
+  renderProductGrid('bestSellersGrid',PRODUCTS.slice(8,16));
+  setupCarousel();
+  startTimer();
+}
+
+// ===================== CAROUSEL =====================
+function setupCarousel(){
+  const dots=document.getElementById('dots');
+  [0,1,2,3].forEach(i=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' active':'');
+    d.onclick=()=>goSlide(i);
+    dots.appendChild(d);
+  });
+  setInterval(nextSlide,4000);
+}
+function goSlide(i){
+  slideIdx=i;
+  document.getElementById('carousel').style.transform=`translateX(-${i*100}%)`;
+  document.querySelectorAll('.dot').forEach((d,j)=>d.className='dot'+(j===i?' active':''));
+}
+function nextSlide(){goSlide((slideIdx+1)%4)}
+function prevSlide(){goSlide((slideIdx+3)%4)}
+
+// ===================== TIMER =====================
+function startTimer(){
+  setInterval(()=>{
+    if(timerSecs>0)timerSecs--;
+    const h=Math.floor(timerSecs/3600),m=Math.floor((timerSecs%3600)/60),s=timerSecs%60;
+    document.getElementById('th').textContent=String(h).padStart(2,'0');
+    document.getElementById('tm').textContent=String(m).padStart(2,'0');
+    document.getElementById('ts').textContent=String(s).padStart(2,'0');
+  },1000);
+}
+
+// ===================== RENDER =====================
+function renderCategories(){
+  const g=document.getElementById('catGrid');
+  g.innerHTML=CATEGORIES.map(c=>`
+    <div class="cat-card" onclick="showListing('${c.name}')">
+      <div class="cat-icon" style="background:${c.bg}">${c.icon}</div>
+      <span class="cat-name">${c.name}</span>
+    </div>`).join('');
+}
+
+function renderDeals(){
+  const g=document.getElementById('dealsGrid');
+  g.innerHTML=DEALS.map(d=>`
+    <div class="deal-card">
+      <div class="deal-img">${d.emoji}</div>
+      <div class="deal-name">${d.name}</div>
+      <div class="deal-price">${d.price}</div>
+      <div class="deal-off">${d.off}</div>
+    </div>`).join('');
+}
+
+function renderProductGrid(id,products){
+  const g=document.getElementById(id);
+  if(!g)return;
+  g.innerHTML=products.map(p=>productCard(p)).join('');
+}
+
+function productCard(p){
+  const inWish=wishlist.includes(p.id);
+  return`<div class="product-card" onclick="showDetail(${p.id})">
+    <div class="product-img-wrap">
+      <div class="product-img-placeholder">${p.emoji}</div>
+      <button class="wishlist-btn${inWish?' active':''}" onclick="event.stopPropagation();toggleWish(${p.id},this)">
+        <i class="ti ti-heart${inWish?'-filled':''}"></i>
+      </button>
+    </div>
+    <div class="product-name">${p.name}</div>
+    <div class="product-rating">
+      <span class="rating-badge">${p.rating} <i class="ti ti-star-filled" style="font-size:10px"></i></span>
+      <span class="rating-count">(${p.reviews.toLocaleString()})</span>
+    </div>
+    <div class="product-price">
+      <span class="price-now">₹${p.price.toLocaleString()}</span>
+      <span class="price-was">₹${p.was.toLocaleString()}</span>
+      <span class="price-off">${p.off}</span>
+    </div>
+    ${p.tag?`<div class="product-tag">★ ${p.tag}</div>`:''}
+    <button class="add-cart-btn" onclick="event.stopPropagation();addToCart(${p.id},this)">Add to Cart</button>
+  </div>`;
+}
+
+// ===================== LISTING =====================
+function showListing(cat){
+  document.getElementById('listingCatName').textContent=cat;
+  document.getElementById('listingCountText').textContent=`Showing 1–16 of ${PRODUCTS.length} results`;
+  const prods=cat==='All'?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat||cat===p.name.split(' ')[0]);
+  const show=prods.length>0?prods:PRODUCTS;
+  const g=document.getElementById('listingGrid');
+  g.innerHTML=show.map(p=>`
+    <div class="listing-item" onclick="showDetail(${p.id})">
+      <div style="font-size:64px;margin-bottom:10px">${p.emoji}</div>
+      <div class="product-name" style="margin-bottom:6px">${p.name}</div>
+      <div class="product-rating" style="margin-bottom:6px">
+        <span class="rating-badge">${p.rating} <i class="ti ti-star-filled" style="font-size:10px"></i></span>
+        <span class="rating-count">(${p.reviews.toLocaleString()})</span>
+      </div>
+      <div class="product-price">
+        <span class="price-now">₹${p.price.toLocaleString()}</span>
+        <span class="price-was">₹${p.was.toLocaleString()}</span>
+        <span class="price-off">${p.off}</span>
+      </div>
+      <button class="add-cart-btn" style="margin-top:8px;width:140px" onclick="event.stopPropagation();addToCart(${p.id},this)">Add to Cart</button>
+    </div>`).join('');
+  renderPagination();
+  showPage('listing');
+}
+
+function renderPagination(){
+  const p=document.getElementById('pagination');
+  p.innerHTML='<button class="page-btn"><i class="ti ti-chevron-left"></i></button>'+
+    [1,2,3,'...',12].map((n,i)=>`<button class="page-btn${n===1?' active':''}" onclick="this.parentNode.querySelectorAll('.page-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">${n}</button>`).join('')+
+    '<button class="page-btn"><i class="ti ti-chevron-right"></i></button>';
+}
+
+// ===================== PRODUCT DETAIL =====================
+function showDetail(id){
+  currentProduct=PRODUCTS.find(p=>p.id===id);
+  if(!currentProduct)return;
+  cartQty=1;
+  document.getElementById('qtyVal').textContent=1;
+  document.getElementById('detailName').textContent=currentProduct.name;
+  document.getElementById('breadcrumbProd').textContent=currentProduct.name.substring(0,30)+'...';
+  document.getElementById('detailRating').textContent=currentProduct.rating;
+  document.getElementById('detailRatingCount').textContent=currentProduct.reviews.toLocaleString()+' ratings';
+  document.getElementById('detailPriceNow').textContent='₹'+currentProduct.price.toLocaleString();
+  document.getElementById('detailPriceWas').textContent='₹'+currentProduct.was.toLocaleString();
+  document.getElementById('detailPriceOff').textContent=currentProduct.off;
+  document.getElementById('bigRating').textContent=currentProduct.rating;
+  document.getElementById('mainImg').textContent=currentProduct.emoji;
+  // Thumbs
+  const tc=document.getElementById('thumbCol');
+  tc.innerHTML=[currentProduct.emoji,'🔍','📦','✨'].map((e,i)=>`
+    <div class="thumb${i===0?' active':''}" onclick="document.getElementById('mainImg').textContent='${e}';document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));this.classList.add('active')">${e}</div>`).join('');
+  // Specs
+  const specs=currentProduct.specs||[['Brand',currentProduct.name.split(' ')[0]],['Category',currentProduct.cat],['Price','₹'+currentProduct.price.toLocaleString()],['Rating',currentProduct.rating+' / 5']];
+  document.getElementById('specsTable').innerHTML=specs.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  // Ratings bars
+  document.getElementById('ratingBars').innerHTML=[5,4,3,2,1].map(n=>{
+    const pct=n===5?55:n===4?25:n===3?12:n===2?5:3;
+    return`<div class="rating-bar-row"><span style="min-width:14px">${n}</span><i class="ti ti-star" style="font-size:11px;color:var(--yellow)"></i><div class="rating-bar-bg"><div class="rating-bar-fill" style="width:${pct}%"></div></div><span style="color:var(--gray-400);min-width:28px">${pct}%</span></div>`;
+  }).join('');
+  // Reviews
+  document.getElementById('reviewsList').innerHTML=REVIEWS.map(r=>`
+    <div class="review-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span class="rating-badge" style="background:${r.rating>=4?'var(--green)':'var(--yellow);color:#333'}">${r.rating} <i class="ti ti-star-filled" style="font-size:10px"></i></span>
+        <span class="reviewer-name">${r.user}</span>
+        ${r.verified?'<span style="font-size:11px;color:var(--green)">✓ Verified Purchase</span>':''}
+      </div>
+      <div class="review-title">${r.title}</div>
+      <div class="review-text">${r.text}</div>
+      <div class="review-date">${r.date}</div>
+    </div>`).join('');
+  // Related
+  const related=PRODUCTS.filter(p=>p.id!==id).slice(0,4);
+  renderProductGrid('relatedGrid',related);
+  showPage('detail');
+}
+
+function changeQty(d){
+  cartQty=Math.max(1,Math.min(10,cartQty+d));
+  document.getElementById('qtyVal').textContent=cartQty;
+}
+
+function addCurrentToCart(){
+  if(!currentProduct)return;
+  for(let i=0;i<cartQty;i++) addToCart(currentProduct.id);
+  showToast(`${cartQty}x ${currentProduct.name.split(' ').slice(0,3).join(' ')} added to cart!`);
+}
+
+function buyNow(){
+  if(!currentProduct)return;
+  addToCart(currentProduct.id);
+  showPage('checkout');
+  renderCheckoutSummary();
+}
+
+// ===================== CART =====================
+function addToCart(id,btn){
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p)return;
+  const existing=cart.find(c=>c.id===id);
+  if(existing)existing.qty++;
+  else cart.push({...p,qty:1});
+  updateCartBadge();
+  if(btn){btn.textContent='✓ Added';btn.classList.add('added');setTimeout(()=>{btn.textContent='Add to Cart';btn.classList.remove('added')},1500)}
+  showToast(p.name.split(' ').slice(0,3).join(' ')+' added to cart!');
+}
+
+function updateCartBadge(){
+  const total=cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cartBadge').textContent=total;
+}
+
+function renderCart(){
+  const wrap=document.getElementById('cartItemsWrap');
+  if(cart.length===0){
+    wrap.innerHTML='<div style="padding:48px;text-align:center"><div style="font-size:64px;margin-bottom:16px">🛒</div><div style="font-size:18px;font-weight:600;margin-bottom:8px">Your cart is empty</div><div style="color:var(--gray-400);margin-bottom:20px">Add items to get started</div><button class="btn-buy" style="padding:12px 24px;border-radius:var(--radius);cursor:pointer" onclick="showPage(\'home\')">Shop Now</button></div>';
+    document.getElementById('priceSummary').innerHTML='';
+    return;
+  }
+  wrap.innerHTML=`<div class="cart-header"><i class="ti ti-shopping-cart"></i> My Cart (${cart.length} item${cart.length>1?'s':''})</div>`+
+    cart.map(item=>`
+      <div class="cart-item">
+        <div class="cart-item-img">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-seller">Seller: RetailNet India</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <button class="qty-btn" style="width:28px;height:28px;font-size:15px" onclick="changeCartQty(${item.id},-1)">−</button>
+            <span style="font-weight:600">${item.qty}</span>
+            <button class="qty-btn" style="width:28px;height:28px;font-size:15px" onclick="changeCartQty(${item.id},1)">+</button>
+          </div>
+          <div class="cart-item-price">₹${(item.price*item.qty).toLocaleString()}</div>
+          <div class="cart-item-actions">
+            <span class="cart-action-btn" onclick="removeFromCart(${item.id})"><i class="ti ti-trash"></i> Remove</span>
+            <span class="cart-action-btn" onclick="moveToWish(${item.id})"><i class="ti ti-heart"></i> Save for Later</span>
+          </div>
+        </div>
+      </div>`).join('');
+  renderPriceSummary('priceSummary',true);
+}
+
+function changeCartQty(id,d){
+  const item=cart.find(c=>c.id===id);
+  if(!item)return;
+  item.qty=Math.max(1,item.qty+d);
+  updateCartBadge();
+  renderCart();
+}
+
+function removeFromCart(id){
+  cart=cart.filter(c=>c.id!==id);
+  updateCartBadge();
+  renderCart();
+  showToast('Item removed from cart');
+}
+
+function moveToWish(id){
+  if(!wishlist.includes(id))wishlist.push(id);
+  removeFromCart(id);
+  showToast('Saved to wishlist!');
+}
+
+function renderPriceSummary(containerId,showCheckoutBtn){
+  const total=cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const discount=cart.reduce((s,c)=>s+(c.was-c.price)*c.qty,0);
+  const delivery=total>499?0:40;
+  const final=total+delivery;
+  const el=document.getElementById(containerId);
+  el.innerHTML=`
+    <div style="font-size:14px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.5px;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:4px">Price Details</div>
+    <div class="price-row"><span>Price (${cart.reduce((s,c)=>s+c.qty,0)} items)</span><span>₹${(total+discount).toLocaleString()}</span></div>
+    <div class="price-row discount"><span>Discount</span><span>− ₹${discount.toLocaleString()}</span></div>
+    <div class="price-row"><span>Delivery Charges</span><span style="color:var(--green)">${delivery===0?'FREE':'₹'+delivery}</span></div>
+    <div class="price-row"><span style="font-weight:700">Total Amount</span><span style="font-weight:700">₹${final.toLocaleString()}</span></div>
+    <div class="price-row total" style="border-bottom:none;margin:0"><span></span></div>
+    ${showCheckoutBtn?`<button class="checkout-btn" onclick="goCheckout()">Proceed to Checkout</button>`:''}
+    ${discount>0?`<div class="savings-msg"><i class="ti ti-piggy-bank"></i> You will save ₹${discount.toLocaleString()} on this order!</div>`:''}`;
+}
+
+function renderCheckoutSummary(){renderPriceSummary('checkoutSummary',false)}
+function goCheckout(){showPage('checkout');renderCheckoutSummary()}
+
+// ===================== ORDERS =====================
+const ORDER_DATA=[
+  {id:'FM-2024-7841',product:PRODUCTS[0],status:'Delivered',date:'Delivered on Mar 12, 2024',steps:[{t:'Order Confirmed',d:'Mar 8, 8:00 AM',done:true},{t:'Shipped',d:'Mar 9, 2:30 PM',done:true},{t:'Out for Delivery',d:'Mar 12, 9:00 AM',done:true},{t:'Delivered',d:'Mar 12, 1:45 PM',done:true,current:false}]},
+  {id:'FM-2024-8432',product:PRODUCTS[3],status:'Out for Delivery',date:'Expected today by 6 PM',steps:[{t:'Order Confirmed',d:'Mar 14, 10:00 AM',done:true},{t:'Shipped',d:'Mar 15, 4:00 PM',done:true},{t:'Out for Delivery',d:'Mar 17, 8:30 AM',done:true,current:true},{t:'Delivered',d:'Expected by 6 PM',done:false}]}
+];
+
+function renderOrders(){
+  document.getElementById('ordersWrap').innerHTML=ORDER_DATA.map(o=>`
+    <div class="order-card">
+      <div class="order-card-header">
+        <div>
+          <div style="font-weight:700;font-size:15px">${o.product.name.substring(0,45)}</div>
+          <div class="order-id">Order ID: ${o.id}</div>
+        </div>
+        <div class="order-status"><i class="ti ti-circle-check"></i> ${o.status}</div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;margin-bottom:20px">
+        <span style="font-size:36px">${o.product.emoji}</span>
+        <div>
+          <div style="font-size:13px;color:var(--gray-600)">${o.date}</div>
+          <div style="font-size:14px;font-weight:600;margin-top:2px">₹${o.product.price.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="tracking-steps">
+        ${o.steps.map(s=>`
+          <div class="tracking-step${s.done?' done':''}">
+            <div class="step-dot${s.current?' current':s.done?' done':''}"></div>
+            <div>
+              <div class="step-info-title">${s.t}</div>
+              <div class="step-info-sub">${s.d}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="page-btn" style="font-size:12px"><i class="ti ti-truck"></i> Track Package</button>
+        <button class="page-btn" style="font-size:12px"><i class="ti ti-file-invoice"></i> Invoice</button>
+        ${o.status==='Delivered'?'<button class="page-btn" style="font-size:12px"><i class="ti ti-star"></i> Rate & Review</button>':''}
+      </div>
+    </div>`).join('');
+}
+
+// ===================== WISHLIST =====================
+function toggleWish(id,btn){
+  if(wishlist.includes(id)){
+    wishlist=wishlist.filter(w=>w!==id);
+    if(btn){btn.innerHTML='<i class="ti ti-heart"></i>';btn.classList.remove('active')}
+    showToast('Removed from wishlist');
+  } else {
+    wishlist.push(id);
+    if(btn){btn.innerHTML='<i class="ti ti-heart-filled"></i>';btn.classList.add('active')}
+    showToast('Added to wishlist!');
+  }
+  if(document.getElementById('wishlist').classList.contains('active'))renderWishlist();
+}
+
+function renderWishlist(){
+  const items=PRODUCTS.filter(p=>wishlist.includes(p.id));
+  document.getElementById('wishCount').textContent=items.length;
+  const g=document.getElementById('wishlistGrid');
+  if(items.length===0){
+    g.innerHTML='<div style="text-align:center;padding:48px;width:100%"><div style="font-size:64px;margin-bottom:16px">💝</div><div style="font-size:18px;font-weight:600;margin-bottom:8px">Your wishlist is empty</div><button class="btn-buy" style="padding:10px 20px;border-radius:var(--radius);cursor:pointer" onclick="showPage(\'home\')">Discover Products</button></div>';
+    return;
+  }
+  g.innerHTML=items.map(p=>`
+    <div class="wishlist-item" onclick="showDetail(${p.id})">
+      <button class="wishlist-remove" onclick="event.stopPropagation();toggleWish(${p.id},null)"><i class="ti ti-x"></i></button>
+      <div style="font-size:52px;margin-bottom:8px">${p.emoji}</div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;color:var(--gray-800)">${p.name.substring(0,40)}</div>
+      <div style="font-size:14px;font-weight:700;color:var(--blue);margin-bottom:8px">₹${p.price.toLocaleString()}</div>
+      <div style="font-size:11px;color:var(--green);margin-bottom:8px">${p.off}</div>
+      <button class="add-cart-btn" onclick="event.stopPropagation();addToCart(${p.id},this)">Add to Cart</button>
+    </div>`).join('');
+}
+
+// ===================== ACCOUNT =====================
+function setAccountTab(tab,el){
+  document.querySelectorAll('.account-menu-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  currentAccountTab=tab;
+  renderAccountContent();
+}
+
+function renderAccountContent(){
+  const c=document.getElementById('accountContent');
+  if(currentAccountTab==='overview'){
+    c.innerHTML=`
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px">Account Overview</div>
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-card-num">${cart.length}</div><div class="stat-card-label">Cart Items</div></div>
+        <div class="stat-card"><div class="stat-card-num">${wishlist.length}</div><div class="stat-card-label">Wishlist</div></div>
+        <div class="stat-card"><div class="stat-card-num">2</div><div class="stat-card-label">Orders</div></div>
+      </div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:12px">Recent Orders</div>
+      ${ORDER_DATA.map(o=>`
+        <div class="order-list-item">
+          <div class="order-list-img">${o.product.emoji}</div>
+          <div class="order-list-info">
+            <div class="order-list-name">${o.product.name.substring(0,45)}</div>
+            <div class="order-list-meta">${o.id} · ₹${o.product.price.toLocaleString()}</div>
+          </div>
+          <div class="order-list-status">${o.status}</div>
+        </div>`).join('')}`;
+  } else if(currentAccountTab==='orders'){
+    c.innerHTML=`<div style="font-size:18px;font-weight:700;margin-bottom:16px">My Orders</div>`+
+      ORDER_DATA.map(o=>`
+        <div class="order-list-item" style="cursor:pointer" onclick="showPage('orders')">
+          <div class="order-list-img">${o.product.emoji}</div>
+          <div class="order-list-info">
+            <div class="order-list-name">${o.product.name}</div>
+            <div class="order-list-meta">${o.date} · ₹${o.product.price.toLocaleString()}</div>
+          </div>
+          <div class="order-list-status">${o.status}</div>
+        </div>`).join('');
+  } else if(currentAccountTab==='profile'){
+    c.innerHTML=`
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px">Profile Information</div>
+      <div class="form-row"><div class="form-group"><label>Name</label><input type="text" value="Rahul Sharma"></div><div class="form-group"><label>Mobile</label><input type="text" value="+91 98765 43210"></div></div>
+      <div class="form-row" style="grid-template-columns:1fr"><div class="form-group"><label>Email</label><input type="text" value="rahul.sharma@email.com"></div></div>
+      <button class="btn-buy" style="padding:10px 24px;border-radius:var(--radius);cursor:pointer;margin-top:8px">Save Changes</button>`;
+  } else if(currentAccountTab==='wallet'){
+    c.innerHTML=`
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px">FlipMart Wallet</div>
+      <div style="background:linear-gradient(135deg,#1565c0,#1976d2);border-radius:var(--radius-lg);padding:24px;color:#fff;margin-bottom:16px">
+        <div style="font-size:13px;opacity:.8;margin-bottom:4px">Available Balance</div>
+        <div style="font-size:36px;font-weight:700">₹2,456.50</div>
+        <div style="font-size:12px;opacity:.7;margin-top:8px">Valid till Dec 2025 · **** **** **** 4242</div>
+      </div>
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-card-num" style="font-size:18px">₹450</div><div class="stat-card-label">Cashback Earned</div></div>
+        <div class="stat-card"><div class="stat-card-num" style="font-size:18px">₹200</div><div class="stat-card-label">Rewards</div></div>
+        <div class="stat-card"><div class="stat-card-num" style="font-size:18px">5</div><div class="stat-card-label">Transactions</div></div>
+      </div>`;
+  } else if(currentAccountTab==='addresses'){
+    c.innerHTML=`
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px">Saved Addresses</div>
+      <div style="border:1px solid var(--blue);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px;position:relative">
+        <span style="position:absolute;top:12px;right:12px;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;padding:3px 8px;border-radius:var(--radius)">DEFAULT</span>
+        <div style="font-size:14px;font-weight:600;margin-bottom:4px">Rahul Sharma · +91 98765 43210</div>
+        <div style="font-size:13px;color:var(--gray-600);line-height:1.6">Flat 4B, Sunrise Apartments, LBS Marg<br>Mulund West, Mumbai - 400080<br>Maharashtra</div>
+      </div>
+      <button class="page-btn" style="margin-top:4px"><i class="ti ti-plus"></i> Add New Address</button>`;
+  }
+}
+
+// ===================== PAYMENT =====================
+function selectPayment(el){
+  document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function placeOrder(){
+  cart=[];
+  updateCartBadge();
+  showPage('success');
+}
+
+// ===================== UTILS =====================
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  document.querySelectorAll('.cat-link').forEach(l=>l.classList.remove('active'));
+  if(id==='home')document.querySelector('.cat-link').classList.add('active');
+  if(id==='cart')renderCart();
+  if(id==='orders')renderOrders();
+  if(id==='wishlist')renderWishlist();
+  if(id==='account'){renderAccountContent()}
+}
+
+function doSearch(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  if(!q)return;
+  showListing(q);
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+init();
+</script>
+</body>
+</html>
